@@ -1,1 +1,1 @@
-# XAndroidArichitecture
+# XAndroidArchitecture
