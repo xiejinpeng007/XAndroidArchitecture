@@ -19,8 +19,7 @@ enum class MainActivityTag(val tag: String,
                 .toMap(mutableMapOf())
     }
 
-    public fun swtichTag(activity: BaseFragmentManagerActivity,
-                         clearCurrentStack: Boolean = false,
-                         forceSwitch: Boolean = false) = activity.switchToStackByTag(tag)
+    fun swtichTag(activity: BaseFragmentManagerActivity,
+                  clearCurrentStack: Boolean = false) = activity.switchToStackByTag(tag, clearCurrentStack)
 
 }
