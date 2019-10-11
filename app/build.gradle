@@ -3,23 +3,19 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 android {
-    compileSdkVersion 27
+    compileSdkVersion 29
     defaultConfig {
-        applicationId "com.util.xiejinpeng.xandroidarichitecture"
+        applicationId "xiejinpeng.xandroidarichitecture"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     // 署名
     signingConfigs {
         debug {
-            storeFile file('keystore/debug.keystore')
-            storePassword "android"
-            keyAlias "androiddebugkey"
-            keyPassword "android"
         }
 
         release {
@@ -50,8 +46,7 @@ android {
         // 本番環境
         production {
             resValue "string", "version_code", "Version ${defaultConfig.versionName}"
-            buildConfigField "String", "BASE_URL", '"http://kp.kitamura.jp/aup-relay/"'
-            buildConfigField "String", "BASE_URL_V2", '"https://www.kitamura-print.com/chokkobin2018/"'
+            buildConfigField "String", "BASE_URL", '"http://baseurl/"'
             buildConfigField "boolean", "ALLOW_ALL_CERTIFICATES", "false"
             signingConfig signingConfigs.release
         }
@@ -61,7 +56,6 @@ android {
 
             resValue "string", "version_code", "Version ${defaultConfig.versionName} .staging"
             buildConfigField "String", "BASE_URL", '"http://kpstg.kitamura.jp/aup-relay/"'
-            buildConfigField "String", "BASE_URL_V2", '"https://www.kitamura-print.com/chokkobin2018stg/"'
             buildConfigField "boolean", "ALLOW_ALL_CERTIFICATES", "true"
             signingConfig signingConfigs.release
         }
@@ -84,6 +78,10 @@ android {
         sourceCompatibility 1.8
     }
 
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
     dataBinding {
         enabled = true
     }
@@ -91,48 +89,50 @@ android {
 
 dependencies {
 
-    def support_version = "27.1.1"
-    def rx_version = "2.1.9"
-    def retrofit_version = "2.3.0"
-    def okhttp_version = "3.8.1"
-    def dbflow_version = "4.2.4"
-    def kodein_version = "5.0.0"
-    def aac_version = "1.1.1"
+    def rx_version = "2.2.13"
+    def retrofit_version = "2.6.2"
+    def okhttp_version = '4.2.2'
+    def kodein_version = "6.4.1"
+    def lifecycle_version = "2.1.0"
+    def room_version = "2.2.0-rc01"
+    def activity_version = "1.0.0"
+    def kotpref_version = "2.9.2"
 
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-    //Support
-    implementation "com.android.support:appcompat-v7:$support_version"
-    implementation "com.android.support:support-v4:$support_version"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    //AndroidX
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation "androidx.activity:activity-ktx:$activity_version"
+    implementation 'androidx.core:core-ktx:1.1.0'
 
-    //AAC
-    implementation "android.arch.lifecycle:extensions:$aac_version"
-    annotationProcessor "android.arch.lifecycle:compiler:$aac_version"
-    implementation "android.arch.lifecycle:reactivestreams:$aac_version"
+
+    //Lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version" // For Kotlin use lifecycle-reactivestreams-ktx
+
+    //Database
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 
     //DI
     implementation "org.kodein.di:kodein-di-generic-jvm:${kodein_version}"
-    implementation "org.kodein.di:kodein-di-framework-android:${kodein_version}"
+    implementation "org.kodein.di:kodein-di-framework-android-x:${kodein_version}"
 
     //Rx
     implementation "io.reactivex.rxjava2:rxjava:$rx_version"
-    implementation "io.reactivex.rxjava2:rxkotlin:2.2.0"
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation "io.reactivex.rxjava2:rxkotlin:2.3.0"
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
     implementation 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar'
 
     //SharedPreference
-    implementation "com.chibatching.kotpref:kotpref:2.3.0"
-    implementation "com.chibatching.kotpref:initializer:2.3.0"
+    implementation "com.chibatching.kotpref:kotpref:${kotpref_version}"
+    implementation "com.chibatching.kotpref:initializer:${kotpref_version}"
 
-    //DataBase
-    implementation "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-kotlinextensions:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2:${dbflow_version}"
-    implementation "com.github.Raizlabs.DBFlow:dbflow-rx2-kotlinextensions:${dbflow_version}"
-    kapt "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+
 
     //Retrofit OkHttp
     implementation "com.squareup.okhttp3:okhttp:${okhttp_version}"
@@ -150,32 +150,33 @@ dependencies {
     }
 
     //OAuth2
-    implementation("org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1") {
+    implementation('org.apache.oltu.oauth2:org.apache.oltu.oauth2.client:1.0.1') {
         exclude group: 'org.apache.oltu.oauth2', module: 'org.apache.oltu.oauth2.common'
         exclude group: 'org.slf4j', module: 'slf4j-api'
     }
 
     //Json Serializer
-    implementation 'com.squareup.moshi:moshi-kotlin:1.5.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.8.0'
+    implementation 'se.ansman.kotshi:api:2.0.1'
+    kapt 'se.ansman.kotshi:compiler:2.0.1'
 
     //FragmentManager
     implementation "com.github.Yumenokanata:FragmentManager:2.7.1"
 
     //Log
-    implementation 'com.jakewharton.timber:timber:4.7.0'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 
     //Debug Stetho
-    debugImplementation 'com.facebook.stetho:stetho:1.5.0'
-    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
+    debugImplementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.0.5'
-    implementation 'androidx.core:core-ktx:0.3'
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     //Test
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }
