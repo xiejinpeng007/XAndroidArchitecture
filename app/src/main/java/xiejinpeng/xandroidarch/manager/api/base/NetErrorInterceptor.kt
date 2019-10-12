@@ -59,6 +59,4 @@ class NetErrorInterceptor : Interceptor {
     }
 }
 
-//TODO define the API error response model
-class ServerErrorException(): RuntimeException()
 
