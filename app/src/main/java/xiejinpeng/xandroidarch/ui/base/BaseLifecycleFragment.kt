@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import indi.yume.tools.fragmentmanager.BaseManagerFragment
 import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
@@ -15,13 +16,14 @@ import java.lang.ClassCastException
 /**
  * Created by xiejinpeng on 2018/2/8.
  */
-abstract class BaseLifecycleFragment
-    : BaseManagerFragment(), BindLife,
+abstract class BaseLifecycleFragment : Fragment(),
+    BindLife,
     FragmentLifecycleOwner {
 
     override val compositeDisposable = CompositeDisposable()
 
-    override val lifeSubject: Subject<FragmentLifeEvent> = FragmentLifecycleOwner.defaultLifeSubject()
+    override val lifeSubject: Subject<FragmentLifeEvent> =
+        FragmentLifecycleOwner.defaultLifeSubject()
 
     /**
      * addition function
@@ -35,7 +37,7 @@ abstract class BaseLifecycleFragment
 
     @Throws(ClassCastException::class)
     fun bindActivityLife(): Observable<ActivityLifeEvent> =
-            (context as ActivityLifecycleOwner).bindActivityLife()
+        (context as ActivityLifecycleOwner).bindActivityLife()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,7 +48,11 @@ abstract class BaseLifecycleFragment
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
 
         makeState(FragmentLifeEvent.OnCreateView(this, inflater, container, savedInstanceState))
         return super.onCreateView(inflater, container, savedInstanceState)

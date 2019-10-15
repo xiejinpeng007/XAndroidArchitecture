@@ -5,7 +5,7 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 29
     defaultConfig {
-        applicationId "xiejinpeng.xandroidarichitecture"
+        applicationId "xiejinpeng.xandroidarch"
         minSdkVersion 21
         targetSdkVersion 29
         versionCode 1
@@ -97,7 +97,7 @@ dependencies {
     def room_version = "2.2.0-rc01"
     def activity_version = "1.0.0"
     def kotpref_version = "2.9.2"
-
+    def nav_version = "2.1.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -106,16 +106,21 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation 'androidx.core:core-ktx:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.1.0'
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
 
 
     //Lifecycle
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version" // For Kotlin use lifecycle-reactivestreams-ktx
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$lifecycle_version"
+    // For Kotlin use lifecycle-reactivestreams-ktx
 
     //Database
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     kapt "androidx.room:room-compiler:$room_version"
 
     //DI
@@ -131,7 +136,6 @@ dependencies {
     //SharedPreference
     implementation "com.chibatching.kotpref:kotpref:${kotpref_version}"
     implementation "com.chibatching.kotpref:initializer:${kotpref_version}"
-
 
 
     //Retrofit OkHttp

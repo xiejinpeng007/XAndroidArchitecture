@@ -64,14 +64,14 @@ constructor(
         render.invoke(binding)
     }
 
-    override fun onShow(callMode: Int) {
-        super.onShow(callMode)
-//        Note :this Mode will not call if fragment is first of the stack
-        if (callMode == OnShowMode.ON_CREATE_AFTER_ANIM) {
-            initViewAfterAnim()
-            initDataAfterAnim()
-        }
-    }
+//    override fun onShow(callMode: Int) {
+//        super.onShow(callMode)
+////        Note :this Mode will not call if fragment is first of the stack
+//        if (callMode == OnShowMode.ON_CREATE_AFTER_ANIM) {
+//            initViewAfterAnim()
+//            initDataAfterAnim()
+//        }
+//    }
 
     open fun initDataAfterAnim() {
 
