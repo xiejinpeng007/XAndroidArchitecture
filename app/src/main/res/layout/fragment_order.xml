@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="xiejinpeng.xandroidarch.ui.order.OrderFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/move_to_next_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="move to OrderFragment2"
+            android:textAllCaps="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello OrderFragment2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{sharedViewModel.sharedData.toString()}"
+            app:layout_constraintBottom_toTopOf="@+id/move_to_next_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <data>
+
+        <variable
+            name="sharedViewModel"
+            type="xiejinpeng.xandroidarch.ui.SharedViewModel" />
+
+        <variable
+            name="sharedData"
+            type="String" />
+
+        <variable
+            name="viewModel"
+            type="xiejinpeng.xandroidarch.ui.order.OrderViewModel" />
+    </data>
+</layout>

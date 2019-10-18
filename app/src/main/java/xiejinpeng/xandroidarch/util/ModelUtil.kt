@@ -7,25 +7,25 @@ import xiejinpeng.xandroidarch.manager.api.base.globalMoshi
 import java.lang.reflect.Type
 
 inline fun <reified T> String?.fromJson(moshi: Moshi = globalMoshi): T? =
-        this?.let {
-            ModelUtil.fromJson(
-                this,
-                T::class.java,
-                moshi = moshi
-            )
-        }
+    this?.let {
+        ModelUtil.fromJson(
+            this,
+            T::class.java,
+            moshi = moshi
+        )
+    }
 
 inline fun <reified T> T?.toJson(moshi: Moshi = globalMoshi): String =
     ModelUtil.toJson(this, T::class.java, moshi = moshi)
 
 inline fun <reified T> Moshi.fromJson(json: String?): T? =
-        json?.let {
-            ModelUtil.fromJson(
-                json,
-                T::class.java,
-                moshi = this
-            )
-        }
+    json?.let {
+        ModelUtil.fromJson(
+            json,
+            T::class.java,
+            moshi = this
+        )
+    }
 
 inline fun <reified T> Moshi.toJson(t: T?): String =
     ModelUtil.toJson(t, T::class.java, moshi = this)

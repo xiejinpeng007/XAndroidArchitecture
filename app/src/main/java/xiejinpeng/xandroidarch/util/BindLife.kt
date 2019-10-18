@@ -13,13 +13,15 @@ interface BindLife {
 
     fun Disposable.bindLife() = addDisposable(this)
 
-    fun Single<*>.bindLife() = subscribe({  }, { Timber.e(it, "Single has error") }).bindLife()
+    fun Single<*>.bindLife() = subscribe({ }, { Timber.e(it, "Single error") }).bindLife()
 
-    fun Observable<*>.bindLife() = subscribe({  }, { Timber.e(it, "Observable has error") }).bindLife()
+    fun Observable<*>.bindLife() =
+        subscribe({ }, { Timber.e(it, "Observable error") }).bindLife()
 
-    fun Completable.bindLife() = subscribe({  }, { Timber.e(it, "Completable has error") }).bindLife()
+    fun Completable.bindLife() =
+        subscribe({ }, { Timber.e(it, "Completable error") }).bindLife()
 
-    fun Flowable<*>.bindLife() = subscribe({  }, { Timber.e(it, "Flowable has error") }).bindLife()
+    fun Flowable<*>.bindLife() = subscribe({ }, { Timber.e(it, "Flowable  error") }).bindLife()
 
     fun addDisposable(disposable: Disposable) {
         compositeDisposable.add(disposable)

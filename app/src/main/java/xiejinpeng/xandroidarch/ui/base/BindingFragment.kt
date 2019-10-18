@@ -35,7 +35,7 @@ constructor(
         ).get(clazz)
     }
 
-    private lateinit var binding: Bind
+    protected lateinit var binding: Bind
 
     //method
 

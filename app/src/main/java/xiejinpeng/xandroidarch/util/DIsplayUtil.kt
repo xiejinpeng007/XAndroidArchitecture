@@ -35,7 +35,7 @@ fun Activity.openSoftKeyBoard() {
     var view = currentFocus
     if (view == null) view = View(this)
     val imm = getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager
-            ?: return
+        ?: return
     imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
 }
 
@@ -44,6 +44,6 @@ fun Activity.openSoftKeyBoard(view: View) {
     view.isFocusableInTouchMode = true
     view.requestFocus()
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-            ?: return
+        ?: return
     imm.showSoftInput(view, InputMethodManager.SHOW_FORCED)
 }

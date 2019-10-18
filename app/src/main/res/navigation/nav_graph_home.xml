@@ -2,21 +2,21 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
+    android:id="@+id/nav_graph_home"
     app:startDestination="@id/homeFragment2">
 
     <fragment
         android:id="@+id/homeFragment2"
         android:name="xiejinpeng.xandroidarch.ui.home.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/action_homeFragment2_to_example1Fragment"
-            app:destination="@id/example1Fragment" />
+            android:id="@+id/action_homeFragment2_to_home02Fragment"
+            app:destination="@id/home02Fragment" />
     </fragment>
     <fragment
-        android:id="@+id/example1Fragment"
-        android:name="xiejinpeng.xandroidarch.ui.example1.Example1Fragment"
-        android:label="fragment_example1"
-        tools:layout="@layout/fragment_example1" />
+        android:id="@+id/home02Fragment"
+        android:name="xiejinpeng.xandroidarch.ui.home_02.Home02Fragment"
+        android:label="fragment_home_02"
+        tools:layout="@layout/fragment_home_02" />
 </navigation>

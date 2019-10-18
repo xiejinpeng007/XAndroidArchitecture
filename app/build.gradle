@@ -94,10 +94,10 @@ dependencies {
     def okhttp_version = '4.2.2'
     def kodein_version = "6.4.1"
     def lifecycle_version = "2.1.0"
-    def room_version = "2.2.0-rc01"
+    def room_version = "2.2.0"
     def activity_version = "1.0.0"
     def kotpref_version = "2.9.2"
-    def nav_version = "2.1.0"
+    def nav_version = "2.2.0-beta01"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
@@ -106,9 +106,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
     implementation "androidx.activity:activity-ktx:$activity_version"
     implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.1.0'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0-beta02'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-runtime:$nav_version"
 
 
     //Lifecycle
