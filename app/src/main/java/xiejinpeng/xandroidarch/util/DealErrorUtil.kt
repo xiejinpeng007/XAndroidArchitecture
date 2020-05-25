@@ -1,96 +1,67 @@
 package xiejinpeng.xandroidarch.util
 
 import android.content.Context
-import android.text.TextUtils
-import androidx.annotation.StringRes
-import io.reactivex.*
-import org.reactivestreams.Publisher
-import xiejinpeng.xandroidarch.R
+import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.observe
+import io.reactivex.Completable
+import io.reactivex.Observable
+import io.reactivex.Single
 
-class HandleErrorTransform<T>(private val context: Context) : ObservableTransformer<T, T>,
-    FlowableTransformer<T, T>,
-    MaybeTransformer<T, T>,
-    SingleTransformer<T, T>,
-    CompletableTransformer {
+    class ApiErrorLiveEvent : LiveEvent<Throwable>()
 
-    override fun apply(upstream: Observable<T>): ObservableSource<T> =
-        upstream.toFlowable(BackpressureStrategy.BUFFER).retryWhen {
-            it.compose(handleErrorFlow(context))
-        }
-            .toObservable()
+    class SkipCatchApiException : RuntimeException()
 
-    override fun apply(upstream: Completable): CompletableSource =
-        upstream.retryWhen { it.compose(handleErrorFlow(context)) }
-
-    override fun apply(upstream: Flowable<T>): Publisher<T> =
-        upstream.retryWhen { it.compose(handleErrorFlow(context)) }
-
-    override fun apply(upstream: Maybe<T>): MaybeSource<T> =
-        upstream.retryWhen { it.compose(handleErrorFlow(context)) }
-
-    override fun apply(upstream: Single<T>): SingleSource<T> =
-        upstream.retryWhen { it.compose(handleErrorFlow(context)) }
-}
-
-
-private fun handleErrorFlow(context: Context): FlowableTransformer<Throwable, Unit> {
-    return FlowableTransformer { f ->
-        f.flatMap { t ->
-            when (t) {
-                is AppFinishException -> {
-                    //finish app
-                    Flowable.error(t)
-                }
-                else -> {
-                    showErrorDialogSingle(context = context, throwable = t)
-                        .toFlowable()
-                        .flatMap { event ->
-                            when (event.button) {
-                                DialogUtil.BUTTON_TYPE_RETRY -> Flowable.just(Unit)
-                                DialogUtil.BUTTON_TYPE_CANCEL,
-                                DialogUtil.BUTTON_TYPE_CLOSE,
-                                DialogUtil.BUTTON_TYPE_DISMISS -> Flowable.error(t)
-                                else -> Flowable.error(t)
-                            }
-                        }
-                }
-            }
+    fun <T> Single<T>.catchApiError(liveEvent: ApiErrorLiveEvent): Single<T> =
+        doOnError {
+            if (it is Exception && it !is SkipCatchApiException) liveEvent.value = Event(it)
         }
 
+    fun <T> Observable<T>.catchApiError(liveEvent: ApiErrorLiveEvent): Observable<T> =
+        doOnError {
+            if (it is Exception && it !is SkipCatchApiException) liveEvent.value = Event(it)
+        }
+
+    fun Completable.catchApiError(liveEvent: ApiErrorLiveEvent): Completable =
+        doOnError {
+            if (it is Exception && it !is SkipCatchApiException) liveEvent.value = Event(it)
+        }
+
+    fun ApiErrorLiveEvent.handleEvent(context: Context, owner: LifecycleOwner) {
+        observe(owner) { event ->
+            event.handleIfNot { error -> showApiErrorDialog(context, error) }
+        }
     }
-}
 
+    fun showApiErrorDialog(context: Context, error: Throwable) {
+        val errorMsg = ApiUtil.parseErrorMsg(context, error)
+        AlertDialog.Builder(context)
+            .setTitle(errorMsg.first)
+            .setMessage(
+                HtmlCompat.fromHtml(
+                    ApiUtil.parseErrorMsg(context, error).second,
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
+            )
+            .setPositiveButton("ok") { _, _ ->
+            }
+            .show()
+    }
 
-fun <T> autoHandleError(context: Context): HandleErrorTransform<T> = HandleErrorTransform(context)
-
-private fun showErrorDialogSingle(
-    throwable: Throwable,
-    context: Context,
-    title: String = "",
-    msg: String = "",
-    @StringRes positiveButtonText: Int = R.string.dialog_ok,
-    @StringRes negativeButtonText: Int = R.string.dialog_cancel,
-    @DialogUtil.ButtonType positiveButton: Long = DialogUtil.BUTTON_TYPE_OK,
-    @DialogUtil.ButtonType negativeButton: Long = DialogUtil.BUTTON_TYPE_CANCEL
-): Single<DialogUtil.DialogEvent> {
-    val text =
-        if (!TextUtils.isEmpty(title) && !TextUtils.isEmpty(msg)) title to msg
-        else ApiUtil.parseError2Text(throwable)
-    return DialogUtil.showDialogSingle(
-        context,
-        text.first,
-        text.second,
-        positiveButtonText,
-        negativeButtonText,
-        positiveButton,
-        negativeButton
-    )
-}
-
-// define the API error response model inside
-class ServerErrorException : RuntimeException()
-
-class AppFinishException : RuntimeException()
-
-
-
+    fun showApiErrorDialogSingle(
+        context: Context,
+        error: Throwable,
+        cancelable: Boolean
+    ): Single<DialogUtil.DialogEvent> {
+        val errorMsg = ApiUtil.parseErrorMsg(context, error)
+        return DialogUtil.showDialogSingle(
+            context,
+            errorMsg.first,
+            errorMsg.second,
+            "ok",
+            positiveButton = DialogUtil.BUTTON_TYPE_OK,
+            negativeButton = DialogUtil.BUTTON_TYPE_NONE,
+            cancelable = cancelable
+        )
+    }

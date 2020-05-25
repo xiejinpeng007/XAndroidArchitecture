@@ -55,7 +55,7 @@ android {
             applicationIdSuffix ".staging"
 
             resValue "string", "version_code", "Version ${defaultConfig.versionName} .staging"
-            buildConfigField "String", "BASE_URL", '"http://kpstg.kitamura.jp/aup-relay/"'
+            buildConfigField "String", "BASE_URL", '"http://baseurl/"'
             buildConfigField "boolean", "ALLOW_ALL_CERTIFICATES", "true"
             signingConfig signingConfigs.release
         }
@@ -64,8 +64,7 @@ android {
             applicationIdSuffix ".develop"
 
             resValue "string", "version_code", "Version ${defaultConfig.versionName} .develop"
-            buildConfigField "String", "BASE_URL", '"http://kpstg.kitamura.jp/aup-relay/"'
-            buildConfigField "String", "BASE_URL_V2", '"https://www.kitamura-print.com/chokkobin2018stg/"'
+            buildConfigField "String", "BASE_URL", '"http://baseurl/"'
             buildConfigField "boolean", "ALLOW_ALL_CERTIFICATES", "true"
             signingConfig signingConfigs.debug
         }
@@ -93,23 +92,26 @@ dependencies {
     def retrofit_version = "2.6.2"
     def okhttp_version = '4.2.2'
     def kodein_version = "6.4.1"
-    def lifecycle_version = "2.1.0"
-    def room_version = "2.2.0"
+    def lifecycle_version = "2.2.0"
+    def room_version = "2.2.5"
     def activity_version = "1.0.0"
-    def kotpref_version = "2.9.2"
-    def nav_version = "2.2.0-beta01"
+    def kotpref_version = "2.10.0"
+    def nav_version = "2.3.0-beta01"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     //AndroidX
     implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-beta6'
     implementation "androidx.activity:activity-ktx:$activity_version"
-    implementation 'androidx.core:core-ktx:1.1.0'
-    implementation 'androidx.fragment:fragment-ktx:1.2.0-beta02'
+    implementation 'androidx.core:core-ktx:1.2.0'
+    implementation 'androidx.fragment:fragment-ktx:1.3.0-alpha05'
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
     implementation "androidx.navigation:navigation-runtime:$nav_version"
+
+    //
+    implementation "com.google.android.material:material:1.2.0-alpha06"
 
 
     //Lifecycle
@@ -161,12 +163,9 @@ dependencies {
     }
 
     //Json Serializer
-    implementation 'com.squareup.moshi:moshi-kotlin:1.8.0'
+    implementation 'com.squareup.moshi:moshi-kotlin:1.9.2'
     implementation 'se.ansman.kotshi:api:2.0.1'
     kapt 'se.ansman.kotshi:compiler:2.0.1'
-
-    //FragmentManager
-    implementation "com.github.Yumenokanata:FragmentManager:2.7.1"
 
     //Log
     implementation 'com.jakewharton.timber:timber:4.7.1'

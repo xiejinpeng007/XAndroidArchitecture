@@ -105,7 +105,7 @@ fun BottomNavigationView.setupWithNavController(
                                 }
                             }
                         }
-                        .addToBackStack(firstFragmentTag)
+//                        .addToBackStack(firstFragmentTag)
                         .setReorderingAllowed(true)
                         .commit()
                 }

@@ -1,7 +1,6 @@
 package xiejinpeng.xandroidarch.manager.di
 
 import com.chibatching.kotpref.Kotpref
-import com.photo.utils.moshipref.moshi
 import xiejinpeng.xandroidarch.manager.api.base.ApiClient
 import xiejinpeng.xandroidarch.manager.api.base.HeaderInterceptor
 import xiejinpeng.xandroidarch.manager.api.base.NetErrorInterceptor
@@ -14,13 +13,6 @@ import java.util.concurrent.TimeUnit
 
 val apiModule = Kodein.Module("api") {
     bind<ApiClient>() with singleton { provideApiClient() }
-}
-
-val sharedPrefModule = Kodein.Module("sharedpref") {
-    bind<SharedPrefModel>() with singleton {
-        Kotpref.moshi = instance()
-        SharedPrefModel
-    }
 }
 
 fun provideApiClient(): ApiClient {

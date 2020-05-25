@@ -36,7 +36,7 @@ class MainActivity : BaseActivity(), KodeinAware {
         } // Else, need to wait for onRestoreInstanceState
 
 //        onBackPressedDispatcher.addCallback(this) {
-            //handle onBackPress here instead of onBackPress()
+        //handle onBackPress here instead of onBackPress()
 //            super.onBackPressed()
 //        }
     }
@@ -56,7 +56,11 @@ class MainActivity : BaseActivity(), KodeinAware {
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = binding.bottomNavView.setupWithNavController(
-            navGraphIds = listOf(R.navigation.nav_graph_home, R.navigation.nav_graph_order),
+            navGraphIds = listOf(
+                R.navigation.nav_graph_home,
+                R.navigation.nav_graph_order,
+                R.navigation.nav_graph_mine
+            ),
             fragmentManager = supportFragmentManager,
             containerId = R.id.nav_host_container,
             intent = intent
@@ -67,6 +71,8 @@ class MainActivity : BaseActivity(), KodeinAware {
             setupActionBarWithNavController(navController)
         })
         currentNavController = controller
+
+//        binding.bottomNavView.getOrCreateBadge(R.id.nav_graph_order).number = 1
     }
 
     override fun onSupportNavigateUp(): Boolean {

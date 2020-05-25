@@ -20,11 +20,7 @@ inline fun <reified T> T?.toJson(moshi: Moshi = globalMoshi): String =
 
 inline fun <reified T> Moshi.fromJson(json: String?): T? =
     json?.let {
-        ModelUtil.fromJson(
-            json,
-            T::class.java,
-            moshi = this
-        )
+        ModelUtil.fromJson(json, T::class.java, moshi = this)
     }
 
 inline fun <reified T> Moshi.toJson(t: T?): String =

@@ -6,4 +6,6 @@
 
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_title">shit happened!</string>
+    <string name="dialog_msg">shit happened!</string>
 </resources>

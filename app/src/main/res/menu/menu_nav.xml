@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- bottom navigation menu id should be the same with navigation graph id-->
+    <!-- bottom navigation menu id should be the same as navigation graph id-->
     <item
         android:id="@+id/nav_graph_home"
         android:icon="@mipmap/ic_launcher"
@@ -13,5 +13,5 @@
         android:title="Order" />
     <item
         android:icon="@mipmap/ic_launcher"
-        android:title="My" />
+        android:title="Mine" />
 </menu>
